@@ -9,7 +9,7 @@
 import XCTest
 @testable import ReSwift
 
-let firstMiddleware: Middleware<StateType> = { dispatch, getState in
+let firstMiddleware: Middleware<Any> = { dispatch, getState in
     return { next in
         return { action in
 
@@ -23,7 +23,7 @@ let firstMiddleware: Middleware<StateType> = { dispatch, getState in
     }
 }
 
-let secondMiddleware: Middleware<StateType> = { dispatch, getState in
+let secondMiddleware: Middleware<Any> = { dispatch, getState in
     return { next in
         return { action in
 
@@ -37,7 +37,7 @@ let secondMiddleware: Middleware<StateType> = { dispatch, getState in
     }
 }
 
-let dispatchingMiddleware: Middleware<StateType> = { dispatch, getState in
+let dispatchingMiddleware: Middleware<Any> = { dispatch, getState in
     return { next in
         return { action in
 
