@@ -8,6 +8,7 @@
 
 import XCTest
 @testable import ReSwift
+import SwiftUI
 
 let firstMiddleware: Middleware<StateType> = { dispatch, getState in
     return { next in
@@ -89,7 +90,7 @@ class StoreMiddlewareTests: XCTestCase {
             middleware: middleware)
 
         let subscriber = TestStoreSubscriber<TestStringAppState>()
-        store.subscribe(subscriber)
+        _ = store.didChange.sink(receiveValue: subscriber.newState)
 
         let action = SetValueStringAction("OK")
         store.dispatch(action)
@@ -114,7 +115,9 @@ class StoreMiddlewareTests: XCTestCase {
             middleware: middleware)
 
         let subscriber = TestStoreSubscriber<TestStringAppState>()
-        store.subscribe(subscriber)
+        _ = store.didChange.sink(receiveValue: subscriber.newState)
+
+//        store[\.state.testValue]
 
         let action = SetValueAction(10)
         store.dispatch(action)
