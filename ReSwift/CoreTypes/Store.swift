@@ -22,18 +22,12 @@ open class Store<State: StateType>: StoreType {
         didSet {
             let acquiredState = state
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) { [weak self] in
-                self?.subscriptions.forEach {
+                guard let self = self else { return }
+                self.subscriptions.forEach {
                     if $0.subscriber == nil {
-                        self?.subscriptions.remove($0)
+                        self.subscriptions.remove($0)
                     } else {
-                        guard let self = self else {
-                            print("WOOH: self was nil")
-                            return
-                        }
-                        guard let state = acquiredState else {
-                            print("WOOH: state was nil")
-                            return
-                        }
+                        guard let state = acquiredState else { return }
                         $0.newValues(oldState: oldValue, newState: state)
                     }
                 }
